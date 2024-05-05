@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from IDText.views import extract_text_from_image
+from IDText.views import extract_text_and_info_from_image
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('image/', extract_text_from_image, name='extract_text_from_image'),
+     path('image/', extract_text_and_info_from_image, name='extract_text_and_info_from_image'),
 ]
