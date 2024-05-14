@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 def upload_view(request):
     return render(request, 'upload.html')
+
 @csrf_exempt
 def process_image(request):
     if request.method == 'POST':
@@ -27,7 +28,7 @@ def process_image(request):
             # Get the response from Project 1
             if response.status_code == 200:
                 data = response.json()
-                return JsonResponse(data)
+                return render(request, 'render.html', data)
             else:
                 return JsonResponse({'error': 'Failed to process image'}, status=response.status_code)
         
@@ -36,3 +37,4 @@ def process_image(request):
     
     else:
         return JsonResponse({'error': 'Please provide a POST request.'}, status=400)
+
