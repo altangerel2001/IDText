@@ -1,0 +1,23 @@
+<!-- myapp/templates/myapp/upload.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Image</title>
+    {% load static %}
+    <script src="{% static 'myapp/main.js' %}"></script>
+</head>
+<body>
+    <h1>Upload Image</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="imageInput" name="image" accept="image/*">
+        <button type="button" onclick="uploadImage()">Upload</button>
+    </form>
+    <div id="results">
+        <h2>Extracted Information</h2>
+        <p><strong>Extracted Text:</strong> <span id="extractedText"></span></p>
+        <p><strong>Surname:</strong> <span id="surname"></span></p>
+        <p><strong>Given Name:</strong> <span id="givenName"></span></p>
+    </div>
+</body>
+</html>
