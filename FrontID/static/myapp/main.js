@@ -4,29 +4,33 @@ function uploadImage() {
     const file = imageInput.files[0];
 
     if (file) {
-        const formData = new FormData();
-        formData.append('image', file);
+        const reader = new FileReader();
+        reader.onloadend = function() {
+            const base64Image = reader.result.split(',')[1];
 
-        fetch('/process_image/', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken')
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                alert(data.error);
-            } else {
-                document.getElementById('extractedText').innerText = data.extracted_text;
-                document.getElementById('surname').innerText = data.surname;
-                document.getElementById('givenName').innerText = data.given_name;
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+            fetch('/process_image/', {
+                method: 'POST',
+                body: JSON.stringify({ image: base64Image }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById('extractedText').innerText = data.extracted_text;
+                    document.getElementById('surname').innerText = data.surname;
+                    document.getElementById('givenName').innerText = data.given_name;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        };
+        reader.readAsDataURL(file);
     } else {
         alert('Please select an image file.');
     }
