@@ -1,0 +1,40 @@
+<!-- upload_form.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Image</title>
+</head>
+<body>
+    <h2>Upload Image</h2>
+    <form id="imageForm" enctype="multipart/form-data">
+        <input type="file" name="image" id="imageInput">
+        <input type="submit" value="Upload">
+    </form>
+    <div id="result"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#imageForm').submit(function(e){
+                e.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '/extract_text_and_info_from_image/',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response){
+                        $('#result').html('<p>Extracted Text: ' + response.extracted_text + '</p>' +
+                                          '<p>Surname: ' + response.surname + '</p>' +
+                                          '<p>Given Name: ' + response.given_name + '</p>');
+                    },
+                    error: function(xhr, status, error){
+                        $('#result').html('<p>Error: ' + error + '</p>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
